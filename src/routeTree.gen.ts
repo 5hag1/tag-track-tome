@@ -10,33 +10,74 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AcercaRouteImport } from './routes/acerca'
+import { Route as ArticulosSlugRouteImport } from './routes/articulos.$slug'
+import { Route as TagsIndexRouteImport } from './routes/tags.index'
+import { Route as TagsTagRouteImport } from './routes/tags.$tag'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AcercaRoute = AcercaRouteImport.update({
+  id: '/acerca',
+  path: '/acerca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ArticulosSlugRoute = ArticulosSlugRouteImport.update({
+  id: '/articulos/$slug',
+  path: '/articulos/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TagsIndexRoute = TagsIndexRouteImport.update({
+  id: '/tags/',
+  path: '/tags/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TagsTagRoute = TagsTagRouteImport.update({
+  id: '/tags/$tag',
+  path: '/tags/$tag',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/acerca': typeof AcercaRoute
+  '/articulos/$slug': typeof ArticulosSlugRoute
+  '/tags/$tag': typeof TagsTagRoute
+  '/tags/': typeof TagsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/acerca': typeof AcercaRoute
+  '/articulos/$slug': typeof ArticulosSlugRoute
+  '/tags/$tag': typeof TagsTagRoute
+  '/tags': typeof TagsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/acerca': typeof AcercaRoute
+  '/articulos/$slug': typeof ArticulosSlugRoute
+  '/tags/$tag': typeof TagsTagRoute
+  '/tags/': typeof TagsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/acerca' | '/articulos/$slug' | '/tags/$tag' | '/tags/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/acerca' | '/articulos/$slug' | '/tags/$tag' | '/tags'
+  id:
+    '__root__' | '/' | '/acerca' | '/articulos/$slug' | '/tags/$tag' | '/tags/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AcercaRoute: typeof AcercaRoute
+  ArticulosSlugRoute: typeof ArticulosSlugRoute
+  TagsTagRoute: typeof TagsTagRoute
+  TagsIndexRoute: typeof TagsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +89,43 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/acerca': {
+      id: '/acerca'
+      path: '/acerca'
+      fullPath: '/acerca'
+      preLoaderRoute: typeof AcercaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/articulos/$slug': {
+      id: '/articulos/$slug'
+      path: '/articulos/$slug'
+      fullPath: '/articulos/$slug'
+      preLoaderRoute: typeof ArticulosSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tags/': {
+      id: '/tags/'
+      path: '/tags'
+      fullPath: '/tags/'
+      preLoaderRoute: typeof TagsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tags/$tag': {
+      id: '/tags/$tag'
+      path: '/tags/$tag'
+      fullPath: '/tags/$tag'
+      preLoaderRoute: typeof TagsTagRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AcercaRoute: AcercaRoute,
+  ArticulosSlugRoute: ArticulosSlugRoute,
+  TagsTagRoute: TagsTagRoute,
+  TagsIndexRoute: TagsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
